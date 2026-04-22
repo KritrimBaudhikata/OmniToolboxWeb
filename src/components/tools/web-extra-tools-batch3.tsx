@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
 import QRCode from "qrcode";
 import JsBarcode from "jsbarcode";
 import { fieldClass, labelClass, NumberInput, OutputCard, ToolSection } from "@/components/tools/common";
@@ -29,7 +29,7 @@ function QrGenTool() {
         </div>
         <div className="space-y-3">
           <div className="flex min-h-56 items-center justify-center rounded-xl border border-slate-200 bg-white p-2 dark:border-slate-700 dark:bg-slate-900">
-            {dataUrl ? <Image src={dataUrl} alt="Generated QR code" width={256} height={256} unoptimized className="h-auto max-w-full" /> : <p className="text-sm text-slate-500">No preview</p>}
+            {dataUrl ? <NextImage src={dataUrl} alt="Generated QR code" width={256} height={256} unoptimized className="h-auto max-w-full" /> : <p className="text-sm text-slate-500">No preview</p>}
           </div>
           {dataUrl ? (
             <a href={dataUrl} download="qr-code.png" className="inline-block rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
@@ -170,7 +170,7 @@ function MarkdownPreviewerTool() {
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>");
     out = out.replace(/^- (.*)$/gm, "<li>$1</li>");
-    out = out.replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>");
+    out = out.replace(/(<li>[\s\S]*<\/li>)/g, "<ul>$1</ul>");
     out = out.replace(/\n/g, "<br/>");
     return out;
   }, [md]);
@@ -233,7 +233,7 @@ function ImageConverterTool() {
             }}
           />
         </label>
-        {preview ? <Image src={preview} alt="preview" width={320} height={220} unoptimized className="max-h-48 w-auto rounded-xl border border-slate-200 dark:border-slate-700" /> : null}
+        {preview ? <NextImage src={preview} alt="preview" width={320} height={220} unoptimized className="max-h-48 w-auto rounded-xl border border-slate-200 dark:border-slate-700" /> : null}
         <NumberInput id="img-quality" label="JPEG quality (0-1)" value={quality} onChange={setQuality} />
         <button
           className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white"

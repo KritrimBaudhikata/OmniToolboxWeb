@@ -29,7 +29,7 @@ const COUNTRY_CODES = [
   { name: "United States", code: "+1" },
 ];
 
-const PERIODIC_MINI = [
+const PERIODIC_MINI: [string, string, number][] = [
   ["H", "Hydrogen", 1], ["He", "Helium", 2], ["Li", "Lithium", 3], ["Be", "Beryllium", 4], ["B", "Boron", 5], ["C", "Carbon", 6],
   ["N", "Nitrogen", 7], ["O", "Oxygen", 8], ["F", "Fluorine", 9], ["Ne", "Neon", 10], ["Na", "Sodium", 11], ["Mg", "Magnesium", 12],
   ["Al", "Aluminium", 13], ["Si", "Silicon", 14], ["P", "Phosphorus", 15], ["S", "Sulfur", 16], ["Cl", "Chlorine", 17], ["Ar", "Argon", 18],

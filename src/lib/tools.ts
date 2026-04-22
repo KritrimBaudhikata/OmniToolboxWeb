@@ -21,7 +21,7 @@ export interface ToolItem {
   tag?: "Popular" | "New" | "Fast";
 }
 
-const BASE_TOOLS: Omit<ToolItem, "icon" | "accentColor">[] = [
+const BASE_TOOLS: Omit<ToolItem, "icon" | "accentColor" | "accentClass" | "description">[] = [
   { id: "password-gen", name: "Password Generator", href: "/tools/password-gen", category: "Security", keywords: ["password"] },
   { id: "passphrase-gen", name: "Passphrase Generator", href: "/tools/passphrase-gen", category: "Security", keywords: ["passphrase"] },
   { id: "pin-gen", name: "PIN Generator", href: "/tools/pin-gen", category: "Security", keywords: ["pin"] },

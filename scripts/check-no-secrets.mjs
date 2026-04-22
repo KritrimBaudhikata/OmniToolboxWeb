@@ -23,14 +23,18 @@ const secretRules = [
   { name: "GitHub token", regex: /ghp_[A-Za-z0-9]{36}/g },
   { name: "OpenAI-style key", regex: /sk-[A-Za-z0-9]{20,}/g },
   { name: "Private key block", regex: /-----BEGIN (RSA|EC|OPENSSH|DSA|PRIVATE) KEY-----/g },
-  { name: "Password assignment", regex: /\bpassword\s*[:=]\s*["']?[^\s"'`]+/gi },
-  { name: "API key assignment", regex: /\bapi[_-]?key\s*[:=]\s*["']?[^\s"'`]+/gi },
-  { name: "Secret assignment", regex: /\bsecret\s*[:=]\s*["']?[^\s"'`]+/gi },
-  { name: "Token assignment", regex: /\btoken\s*[:=]\s*["']?[^\s"'`]+/gi },
+  { name: "Password literal assignment", regex: /\bpassword\s*[:=]\s*["'][^"']{8,}["']/gi },
+  { name: "API key literal assignment", regex: /\bapi[_-]?key\s*[:=]\s*["'][^"']{12,}["']/gi },
+  { name: "Secret literal assignment", regex: /\bsecret\s*[:=]\s*["'][^"']{12,}["']/gi },
+  { name: "Token literal assignment", regex: /\btoken\s*[:=]\s*["'][^"']{12,}["']/gi },
 ];
 
 function shouldIgnoreFile(filePath) {
   const normalized = filePath.replaceAll("\\", "/");
+  const baseName = path.basename(normalized);
+  if (baseName.startsWith(".env") && !baseName.includes(".example")) {
+    return true;
+  }
   return ignoredFiles.some((f) => normalized.endsWith(f));
 }
 

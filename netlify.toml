@@ -1,0 +1,13 @@
+[build]
+command = "npm run build"
+ignore = "bash ./scripts/netlify-ignore.sh"
+
+[build.environment]
+NODE_VERSION = "20"
+NEXT_TELEMETRY_DISABLED = "1"
+
+[context.production]
+branch = "main"
+
+[context.branch-deploy]
+branch = "staging"
