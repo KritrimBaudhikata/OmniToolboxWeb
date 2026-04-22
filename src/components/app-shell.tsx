@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { TOOLS_ENRICHED } from "@/lib/tools";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const PRIMARY_LINKS = [
   { href: "/", label: "Home", icon: "mdi:home-outline" },
@@ -22,6 +23,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [isDark, setIsDark] = useState<boolean>(true);
   const [showBanner, setShowBanner] = useState<boolean>(true);
   const [recentIds, setRecentIds] = useState<string[]>([]);
+  const { user, enabled, loading, signInWithGoogle, signOutUser } = useAuth();
 
   useEffect(() => {
     const dismissed = !!localStorage.getItem("banner.dismissed.v1");
@@ -50,7 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/90">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-3 sm:px-4">
           <Link href="/" className="flex items-center">
-            <Image src="/omnitoolbox-logo.png" alt="OmniToolbox logo" width={40} height={40} className="rounded-md" />
+            <Image src="/omnitoolbox-logo.png" alt="OmniToolbox logo" width={40} height={40} priority className="rounded-md" />
           </Link>
           <nav className="ml-auto flex items-center gap-2 text-sm">
             <Link href="/tools" className="rounded-md px-2.5 py-1.5 font-medium hover:bg-slate-100 dark:hover:bg-slate-800">All Tools</Link>
@@ -58,6 +60,26 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link href="/support" className="rounded-md px-2.5 py-1.5 font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Support ❤</Link>
             <Link href="/privacy" className="hidden rounded-md px-2.5 py-1.5 font-medium hover:bg-slate-100 md:inline dark:hover:bg-slate-800">Privacy</Link>
             <Link href="/terms" className="hidden rounded-md px-2.5 py-1.5 font-medium hover:bg-slate-100 md:inline dark:hover:bg-slate-800">Terms</Link>
+            {enabled ? (
+              user ? (
+                <button
+                  type="button"
+                  onClick={() => void signOutUser()}
+                  className="rounded-md border border-slate-300 px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+                >
+                  Sign out
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void signInWithGoogle()}
+                  disabled={loading}
+                  className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {loading ? "Loading..." : "Sign in"}
+                </button>
+              )
+            ) : null}
             <button
               type="button"
               aria-label="Toggle dark mode"

@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
+    "firebase": "^12.4.0",
+    "firebase-admin": "^13.5.0",
     "jsbarcode": "^3.12.3",
     "next": "16.2.4",
     "qrcode": "^1.5.4",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",

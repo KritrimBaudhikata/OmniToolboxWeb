@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV !== "production";
-const scriptSrc = isDev ? "'self' 'unsafe-inline' 'unsafe-eval'" : "'self' 'unsafe-inline'";
+const scriptSrc = isDev
+  ? "'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com"
+  : "'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -17,7 +19,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              `default-src 'self'; img-src 'self' data: blob: https:; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.ipify.org https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com; font-src 'self' data:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';`,
+              `default-src 'self'; img-src 'self' data: blob: https:; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.ipify.org https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://oauth2.googleapis.com https://firebase.googleapis.com; font-src 'self' data:; frame-src 'self' https://accounts.google.com https://*.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self';`,
           },
         ],
       },

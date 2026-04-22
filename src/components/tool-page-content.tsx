@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Icon } from "@iconify/react";
 import { ToolRenderer } from "@/components/tool-renderer";
 import { ToolBackButton } from "@/components/tool-back-button";
 import { TOOLS_ENRICHED, type ToolItem } from "@/lib/tools";
+import { ToolDriveSync } from "@/components/tool-drive-sync";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export function ToolPageContent({ tool }: { tool: ToolItem }) {
+  const toolRootRef = useRef<HTMLDivElement>(null);
+  const { user, enabled, loading, signInWithGoogle, signOutUser } = useAuth();
+
   useEffect(() => {
     const raw = JSON.parse(localStorage.getItem("recent.tools") || "[]") as string[];
     const next = [tool.id, ...raw.filter((id) => id !== tool.id)].slice(0, 10);
@@ -39,7 +44,45 @@ export function ToolPageContent({ tool }: { tool: ToolItem }) {
       <div className="grid gap-4 xl:grid-cols-[1fr_220px]">
         <div className="space-y-4">
           <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
-            <ToolRenderer toolId={tool.id} />
+            <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/60">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Private Cloud Sync</p>
+              <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">
+                Sign in once to sync tool drafts to your Google Drive appData folder. No tool content is stored on this server.
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {enabled ? (
+                  user ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => void signOutUser()}
+                        className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+                      >
+                        Sign out
+                      </button>
+                      <span className="text-xs text-slate-500">Signed in as {user.email ?? user.uid}</span>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => void signInWithGoogle()}
+                      disabled={loading}
+                      className="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {loading ? "Loading..." : "Sign in with Google"}
+                    </button>
+                  )
+                ) : (
+                  <span className="text-xs text-amber-700 dark:text-amber-300">Firebase config missing. Add env values to enable cloud sync.</span>
+                )}
+              </div>
+              <div className="mt-2">
+                <ToolDriveSync key={tool.id} toolId={tool.id} rootRef={toolRootRef} />
+              </div>
+            </div>
+            <div ref={toolRootRef} data-tool-sync-root={tool.id}>
+              <ToolRenderer toolId={tool.id} />
+            </div>
           </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
