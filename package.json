@@ -6,12 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "smoke": "node ./scripts/smoke-check.mjs",
+    "security:scan": "node ./scripts/check-no-secrets.mjs"
   },
   "dependencies": {
+    "@iconify/react": "^6.0.2",
+    "jsbarcode": "^3.12.3",
     "next": "16.2.4",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "qrcode": "^1.5.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

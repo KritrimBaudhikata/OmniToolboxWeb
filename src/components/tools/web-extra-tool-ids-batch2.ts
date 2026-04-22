@@ -1,0 +1,15 @@
+export const WEB_EXTRA_TOOL_IDS_BATCH2 = new Set([
+  "days-counter",
+  "time-counter",
+  "coordinates-converter",
+  "duration-formatter",
+  "unit-prefixes",
+  "country-codes",
+  "body-measurement",
+  "color-picker",
+  "gradient-generator",
+  "aspect-ratio",
+  "dpi-helper",
+  "text-redactor",
+  "periodic-table",
+]);
